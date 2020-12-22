@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <title>Hello, world!</title>
+</head>
+<body>
+<main id="app">
+    <section class="container">
+        <div class="row">
+            <div class="col">
+                <br><br>
+                <router-view></router-view>
+                
+            </div>
+        </div>
+    </section>
+</main>
+    <template id="tpl-home-page">
+        <div class="col-md-6 m-auto">
+            <router-link to="/etudiantespace" class="btn btn-info">ESPACE ETUDIANT</router-link>
+            <router-link to="/professeurespace" class="btn btn-info">ESPACE PROFESSEUR</router-link>
+            <br>
+            <br>
+        </div>
+    </template>
+    <template id="tpl-etudiantespace-page">
+        <div class="row mt-5">
+            <div class="col-md-6 m-auto">
+                <div class="card card-body text-center">
+                    <h1><i class="fab fa-node-js fa-3x"></i></h1>
+                    <p>Authentification</p>
+                    <form action="#" method="POST">
+                        <article class="form-group">
+                          <label>Email</label>
+                          <input type="text" class="form-control" placeholder="ex:diomb@gmail.com">
+                        </article>
+                        <article class="form-group">
+                          <label>Password</label>
+                          <input type="password" class="form-control">
+                        </article>
+                        <router-link to="/etudiants/" class="btn btn-primary btn-block mb-2">Se Connecter</router-link>
+                        <router-link to="/etudiants/add" class="btn btn-success btn-block">Inscription</router-link>
+                      </form>
+                </div>
+                </div>
+            </div>
+    </template>
+    <template id="tpl-etudiantadd-page">
+        <div class="col-md-6 m-auto">
+            <h1>Enregistrement des étudiants</h1>
+            <hr>
+                <div class="card card-body text-center">
+                    <form action="#" method="POST">
+                        <article class="form-group">
+                          <label>Prénom</label>
+                          <input type="text" class="form-control" placeholder="Ex : Philippe" v-model="etudiant.prenom">
+                        </article>
+                        <article class="form-group">
+                          <label>Nom</label>
+                          <input type="text" class="form-control" placeholder="Ex : Larrat" v-model="etudiant.nom">
+                        </article>
+                        <article class="form-group">
+                          <label>Age</label>
+                          <input type="number" class="form-control" value="18" v-model="etudiant.age">
+                        </article> 
+                        <hr>  
+                        <button type="reset" class="btn btn-secondary">Annuler</button>  
+                        <button type="button" @click="Add()" class="btn btn-success"><i class="fas fa-save"></i>Enregistrer</button>                  
+                      </form>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="tpl-etudiantmod-page">
+        <div>
+            <h1>Modification des étudiants</h1>
+            <hr>
+            <div>
+            <form action="#" method="POST">
+                <article class="form-group">
+                  <label>Prénom</label>
+                  <input type="text" class="form-control" placeholder="Ex : Philippe" v-model="etudiant.prenom">
+                </article>
+  
+                <article class="form-group">
+                  <label>Nom</label>
+                  <input type="text" class="form-control" placeholder="Ex : Larrat" v-model="etudiant.nom">
+                </article>
+                
+                <article class="form-group">
+                  <label>Age</label>
+                  <input type="number" class="form-control" value="18" v-model="etudiant.age">
+                </article>
+                <hr>
+                <button type="reset" class="btn btn-secondary">Annuler</button>
+                <button type="button" @click="Modifier(etudiant)" class="btn btn-success"><i class="fas fa-save"></i> Enregistrer</button>
+              </form>
+            </div>
+            
+        </div>
+    </template>
+    <template id="tpl-etudiants-page">
+        <div>
+            <h1>Etudiants <small>Gestion</small>
+                <sup class="badge badge-pill badge-info">{{etudiants.length}}</sup>
+            </h1>
+           <td><router-link to="/etudiants/add" class="btn btn-primary"><i class="fas fa-plus-circle"></i>Nouvel Etudiant</router-link></td>
+           
+            <hr>
+            
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Prenom</th>
+                            <th>Nom</th>                          
+                            <th>Supprimer</th>   
+                            <th>Modifier</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(etudiant, index) in etudiants">
+                            <td>{{index + 1}}</td>
+                            <td>{{etudiant.prenom}}</td>
+                            <td>{{etudiant.nom}}</td>                                            
+                            <td><button type="button" @click="Supprimer(etudiant)" class="btn btn-sm btn-danger">Supprimer></router-link></td>
+                            <td><router-link :to="/etudiants/ + etudiant._id" class="btn btn-sm btn-info">Modifier</router-link></td>
+                        </tr>
+                       
+                       
+                    </tbody>
+                </table>
+            </div>
+            <router-link to="/" class="btn btn-secondary">Page d'accueil</router-link>
+   
+        </div>
+    </template>
+    <!--la page du professeur-->
+    <template id="tpl-professeurespace-page">
+        <div class="row mt-5">
+            <div class="col-md-6 m-auto">
+                <div class="card card-body text-center">
+                    <h1><i class="fab fa-node-js fa-3x"></i></h1>
+                    <p>Authentification</p>
+                    <form action="#" method="POST">
+                        <article class="form-group">
+                          <label>Email</label>
+                          <input type="text" class="form-control" placeholder="ex:diomb@gmail.com">
+                        </article>
+                        <article class="form-group">
+                          <label>Password</label>
+                          <input type="password" class="form-control">
+                        </article>
+                        <router-link to="/professeurs/" class="btn btn-primary btn-block mb-2">Se Connecter</router-link>
+                        <router-link to="/professeurs/add" class="btn btn-success btn-block">Inscription</router-link>
+                    </form>
+                </div>
+                </div>
+            </div>
+    </template>
+    <template id="tpl-professeuradd-page">
+        <div class="col-md-6 m-auto">
+            <h1>Enregistrement des Professeurs</h1>
+            <hr>
+            <div class="card card-body text-center">
+                <form action="#" method="POST">
+                    <article class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" class="form-control" placeholder="Ex : Philippe" v-model="professeur.prenom">
+                    </article>
+    
+                    <article class="form-group">
+                    <label>Nom</label>
+                    <input type="text" class="form-control" placeholder="Ex : Larrat" v-model="professeur.nom">
+                    </article>
+                                
+                    <hr>  
+                    <button type="reset" class="btn btn-secondary">Annuler</button>  
+                    <button type="button" @click="Add()" class="btn btn-success"><i class="fas fa-save"></i>Enregistrer</button>   
+                                
+            </form>
+            </div>
+            
+        </div>
+    </template>
+
+    <template id="tpl-professeurmod-page">
+        <div>
+            <h1>Modification des professeurs</h1>
+            <hr>
+            <div>
+            <form action="#" method="POST">
+                <article class="form-group">
+                  <label>Prénom</label>
+                  <input type="text" class="form-control" placeholder="Ex : Philippe" v-model="professeur.prenom">
+                </article>
+  
+                <article class="form-group">
+                  <label>Nom</label>
+                  <input type="text" class="form-control" placeholder="Ex : Larrat" v-model="professeur.nom">
+                </article>
+                
+                <hr>
+  
+                <button type="reset" class="btn btn-secondary">Annuler</button>
+                <button type="button" @click="Modifier(professeur)" class="btn btn-success"><i class="fas fa-save"></i> Enregistrer</button>
+               
+              </form>
+            </div>
+            
+        </div>
+    </template>
+    <template id="tpl-professeurs-page">
+        <div>
+            <h1>Professeurs <small>Gestion</small>
+                <sup class="badge badge-pill badge-info">{{professeurs.length}}</sup>
+            </h1>
+           <td><router-link to="/professeurs/add" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Nouvel Professeur</router-link></td>
+           
+            <hr>
+            
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Prenom</th>
+                            <th>Nom</th>                          
+                            <th>Supprimer</th>   
+                            <th>Modifier</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(professeur, index) in professeurs">
+                            <td>{{index + 1}}</td>
+                            <td>{{professeur.prenom}}</td>
+                            <td>{{professeur.nom}}</td>                                            
+                            <td><button type="button" @click="Supprimer(professeur)" class="btn btn-sm btn-danger">Supprimer></router-link></td>
+                            <td><router-link :to="/professeurs/ + professeur._id" class="btn btn-sm btn-info">Modifier</router-link></td>
+                        </tr>
+                       
+                       
+                    </tbody>
+                </table>
+            </div>
+            <router-link to="/" class="btn btn-secondary">Page d'accueil</router-link>
+   
+        </div>
+    </template>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/lodash.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="js/main.js"></script>
+   
+</body>
+
+</html>
